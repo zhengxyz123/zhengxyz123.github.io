@@ -16,6 +16,8 @@ socialLink:
   email: 3422794023@qq.com
   qq: 3422794023
   rss: false
+toc:
+  heading: h1,h2,h3,h4
 mathjax:
   enable: true
 profile:
