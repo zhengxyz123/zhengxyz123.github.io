@@ -44,14 +44,13 @@ post_asset_folder: true
 relative_link: false
 future: true
 highlight:
-  enable: false
-  line_number: true
+  enable: true
   auto_detect: false
   tab_replace: ''
   wrap: true
   hljs: false
 prismjs:
-  enable: true
+  enable: false
   preprocess: true
   line_number: true
   tab_replace: ''
@@ -97,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: matery
+theme: next
 
 search:
   path: search.xml
