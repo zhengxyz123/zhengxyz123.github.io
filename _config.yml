@@ -46,6 +46,7 @@ future: true
 highlight:
   enable: true
   auto_detect: false
+  line_number: false
   tab_replace: ''
   wrap: true
   hljs: false
