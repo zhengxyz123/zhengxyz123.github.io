@@ -34,7 +34,7 @@
 <p>胶囊体与线段类似，若点$P$在红虚线的外侧（需要确定为哪一侧），则计算它与端点的距离。</p>
 <h2 id="多边形"><a href="#多边形" class="headerlink" title="多边形"></a>多边形</h2><p>据我所知，判断点是否在多边形里面的算法有两个。</p>
 <p>首先是只适用于凸多边形的分离轴定理（SAT），它通常用来判断两个凸多边形是否相交，如果其中的一个多边形变成了单独的一个点，此算法依然是正确的。</p>
-<p>另一种算法，简而言之：从$P$点向任意方向画一条射线，若该射线与多边形的边的相交次数为奇数次，该点位于多边形内部；否则该点在多边形外。您可以从<a href="https://www.algorithms-and-technologies.com/point_in_polygon/python">该网站</a>获取这个算法的 Python 代码。</p>
+<p>另一种算法，简而言之：从$P$点向任意方向画一条射线，若该射线与多边形的边的相交次数为奇数次，该点位于多边形内部；否则该点在多边形外。您可以从<a href="https://www.algorithms-and-technologies.com/point_in_polygon/python">该网站</a>获取这个算法的Python代码。</p>
 <h3 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h3><p>将三角形从多边形里面拎出来是有原因的：它有更简单的方法（但不一定快）。</p>
 <p>现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立:</p>
 <p>$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}&#x3D;\vec{0}$$</p>
@@ -58,6 +58,30 @@
 <p>以下是我使用的三角函数章节的思维导图，它简明扼要的描述了各个知识点之间的关系，前三级子分支有各自对应的标题。</p>
 <p><img src="/2023/09/07/trig-func/mindmap.png" alt="思维导图"></p>
 <h1 id="化简方向"><a href="#化简方向" class="headerlink" title="化简方向"></a>化简方向</h1><p>“化简方向”这一分支主要讲如何求含三角函数的值域。</p>
+<blockquote>
+<p>虽然有那么一部分是真的在教你怎么化简一个三角函数，但是其它部分就只告诉你应该怎样求值域。这个名字实在是太不合适了。</p>
+</blockquote>
+<h2 id="整式"><a href="#整式" class="headerlink" title="整式"></a>整式</h2><p>阅读思维导图，我们可以使用“整式”分支利用辅助角公式，使函数仅含$\sin$；或是换元成二次函数。</p>
+<p>那对于下面的函数，我们应该走哪条路呢？</p>
+<ul>
+<li>$f_1(x)&#x3D;\sin2x-2\cos^2x$</li>
+<li>$f_2(x)&#x3D;\sin x\cos(x-\dfrac{\pi}{3})$</li>
+<li>$f_3(x)&#x3D;\cos4x-2\sin^2x$</li>
+</ul>
+<p>毋庸置疑，应该把式子全部展开后再判断，那么$f_2(x)&#x3D;\dfrac{1}{2}\sin x\cos x+\dfrac{\sqrt{3}}{2}\sin^2x$。</p>
+<p>观察三角恒等变换的结果，我们会发现${\color{red}\text{三角函数的次数}}\times{\color{blue}\text{角的系数}}$是不变量。</p>
+<p>\[\sin^{\color{red}2}{\color{blue}2}x&#x3D;1-\cos^{\color{red}2}{\color{blue}2}x&#x3D;\dfrac{1-\cos{\color{blue}4}x}{2}\]</p>
+<p>那么我们就可以用该不变量（我们就称之为“角次”吧）来判断应该使用何种方法。</p>
+<h3 id="辅助角公式"><a href="#辅助角公式" class="headerlink" title="辅助角公式"></a>辅助角公式</h3><p>当角次相同时，我们可以使用辅助角公式化简。$f_1(x)$和$f_2(x)$适用这个方法。</p>
+<blockquote>
+<p>以$f_1(x)$为例，角次是一项一项计算的：$\sin2x$的角次是$2$；$2\cos^2x$的角次也是$2$。</p>
+</blockquote>
+<p>若想要使用辅助角公式化简，那么三角函数的次数应该全部化为$1$，再运用辅助角公式：</p>
+<ul>
+<li>$f_1(x)&#x3D;\sin2x-\cos2x-1&#x3D;\sqrt{2}\sin(2x-\dfrac{\pi}{4})-1$</li>
+<li>$f_2(x)&#x3D;\dfrac{1}{4}\sin2x-\dfrac{\sqrt{3}}{4}\cos2x+\dfrac{\sqrt{3}}{4}&#x3D;\dfrac{1}{2}\sin(2x-\dfrac{\pi}{3})+\dfrac{\sqrt{3}}{4}$</li>
+</ul>
+<p>如果可以使用计算器，则可以讨巧地求得辅助角公式的结果：在“虚数”模式下将一个虚数转换为其三角形式可以看作使用了辅助角公式。</p>
 <h1 id="A-sin-omega-x-varphi-C-性质"><a href="#A-sin-omega-x-varphi-C-性质" class="headerlink" title="$A\sin(\omega x+\varphi)+C$性质"></a>$A\sin(\omega x+\varphi)+C$性质</h1><p>我们可以总结一些三角函数的性质，如下表：</p>
 <table>
 <thead>
@@ -148,7 +172,7 @@
 </tr>
 </tbody></table>
 <p>在使用该表时，令括号内的$\omega x+\varphi$为$t$，通过换元的方法求得函数的单调区间等性质。</p>
-<h2 id="值域"><a href="#值域" class="headerlink" title="值域"></a>值域</h2><p>以函数$f(x)&#x3D;A\sin(\omega x+\varphi)+C$为例，当定义域为$\mathbb{R}$时，它的值域就是$[A+C, A-C]$；若定义域不为$\mathbb{R}$，则通过多次换元来计算值域：</p>
+<h2 id="值域"><a href="#值域" class="headerlink" title="值域"></a>值域</h2><p>以函数$f(x)&#x3D;A\sin(\omega x+\varphi)+C$为例，当定义域为$\mathbb{R}$时，它的值域就是$[-A+C, A+C]$；若定义域不为$\mathbb{R}$，则通过多次换元来计算值域：</p>
 <ol>
 <li>$t&#x3D;\omega x+\varphi$</li>
 <li>$h&#x3D;\sin t$（可通过绘制函数图像确定范围，并检查开闭）</li>
