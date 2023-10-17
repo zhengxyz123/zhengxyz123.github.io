@@ -81,9 +81,9 @@ $$
 ### 三角形
 将三角形从多边形里面拎出来是有原因的：它有更简单的方法（但不一定快）。
 
-现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立:
+现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立：
 
-$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}=\vec{0}$$
+$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}=\overrightarrow{0}$$
 
 据此，我们可以很快地编写算法判断点是否在三角形内。
 > 计算面积时请用刚刚提到的行列式来计算，这样更快。
