@@ -36,8 +36,8 @@
 <p>首先是只适用于凸多边形的分离轴定理（SAT），它通常用来判断两个凸多边形是否相交，如果其中的一个多边形变成了单独的一个点，此算法依然是正确的。</p>
 <p>另一种算法，简而言之：从$P$点向任意方向画一条射线，若该射线与多边形的边的相交次数为奇数次，该点位于多边形内部；否则该点在多边形外。您可以从<a href="https://www.algorithms-and-technologies.com/point_in_polygon/python">该网站</a>获取这个算法的Python代码。</p>
 <h3 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h3><p>将三角形从多边形里面拎出来是有原因的：它有更简单的方法（但不一定快）。</p>
-<p>现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立:</p>
-<p>$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}&#x3D;\vec{0}$$</p>
+<p>现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立：</p>
+<p>$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}&#x3D;\overrightarrow{0}$$</p>
 <p>据此，我们可以很快地编写算法判断点是否在三角形内。</p>
 <blockquote>
 <p>计算面积时请用刚刚提到的行列式来计算，这样更快。</p>
