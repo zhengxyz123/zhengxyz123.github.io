@@ -61,7 +61,7 @@
 <blockquote>
 <p>虽然有那么一部分是真的在教你怎么化简一个三角函数，但是其它部分就只告诉你应该怎样求值域。这个名字实在是太不合适了。</p>
 </blockquote>
-<h2 id="整式"><a href="#整式" class="headerlink" title="整式"></a>整式</h2><p>阅读思维导图，我们可以使用“整式”分支利用辅助角公式，使函数仅含$\sin$；或是换元成二次函数。</p>
+<h2 id="整式"><a href="#整式" class="headerlink" title="整式"></a>整式</h2><p>阅读思维导图，“整式”分支可利用辅助角公式，使函数仅含$\sin$；或是换元成二次函数。</p>
 <p>那对于下面的函数，我们应该走哪条路呢？</p>
 <ul>
 <li>$f_1(x)&#x3D;\sin2x-2\cos^2x$</li>
@@ -82,7 +82,15 @@
 <li>$f_2(x)&#x3D;\dfrac{1}{4}\sin2x-\dfrac{\sqrt{3}}{4}\cos2x+\dfrac{\sqrt{3}}{4}&#x3D;\dfrac{1}{2}\sin(2x-\dfrac{\pi}{3})+\dfrac{\sqrt{3}}{4}$</li>
 </ul>
 <p>如果可以使用计算器，则可以讨巧地求得辅助角公式的结果：在“虚数”模式下将一个虚数转换为其三角形式可以看作使用了辅助角公式。</p>
-<h1 id="A-sin-omega-x-varphi-C-性质"><a href="#A-sin-omega-x-varphi-C-性质" class="headerlink" title="$A\sin(\omega x+\varphi)+C$性质"></a>$A\sin(\omega x+\varphi)+C$性质</h1><p>我们可以总结一些三角函数的性质，如下表：</p>
+<h3 id="二次"><a href="#二次" class="headerlink" title="二次"></a>二次</h3><p>当角次不相同时，我们就应该换元。</p>
+<h2 id="分式"><a href="#分式" class="headerlink" title="分式"></a>分式</h2><p>以下介绍如何求带有分数线的三角函数的值域。</p>
+<h3 id="frac-I-I-型"><a href="#frac-I-I-型" class="headerlink" title="$\frac{I}{I}$型"></a>$\frac{I}{I}$型</h3><p>对于分子和分母一个含$\sin$，另一个含$\cos$，我们可以把值域问题转换为方程有解。</p>
+<blockquote>
+<p>方程有解和求值域在本质上是一样的，大家可以用自己的小脑筋好好思考一下。</p>
+</blockquote>
+<p>同时，在解析几何中，我们也可以将值域问题转换为求斜率的范围。</p>
+<h3 id="万能公式"><a href="#万能公式" class="headerlink" title="万能公式"></a>万能公式</h3><p>使用万能公式（也叫正切半角公式），可以将函数名称统一成$\tan$以便换元，这是最后的手段，同时也是通用的手段。</p>
+<h1 id="A-sin-omega-x-varphi-C-性质"><a href="#A-sin-omega-x-varphi-C-性质" class="headerlink" title="$A\sin(\omega x+\varphi)+C$性质"></a>$A\sin(\omega x+\varphi)+C$性质</h1><p>我们可以总结一些三角函数的性质，正弦函数的最常用，如下表：</p>
 <table>
 <thead>
 <tr>
