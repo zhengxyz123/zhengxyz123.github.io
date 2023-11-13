@@ -1,7 +1,10 @@
 <map version="freeplane 1.11.5">
 <!--To view this file, download free mind mapping software Freeplane from https://www.freeplane.org -->
-<node TEXT="三角函数" LOCALIZED_STYLE_REF="AutomaticLayout.level.root" FOLDED="false" ID="ID_1090958577" CREATED="1409300609620" MODIFIED="1694091308178" CHILD_NODES_LAYOUT="TOPTOBOTTOM_RIGHT_FLOW"><hook NAME="MapStyle" background="#2e3440" zoom="1.5">
-    <properties show_icon_for_attributes="true" edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" show_note_icons="true" associatedTemplateLocation="template:/dark_nord_template.mm" followedTemplateLocation="template:/dark_nord_template.mm" followedMapLastTime="1690583407000" fit_to_viewport="false"/>
+<node TEXT="三角函数" LOCALIZED_STYLE_REF="AutomaticLayout.level.root" FOLDED="false" ID="ID_1090958577" CREATED="1409300609620" MODIFIED="1694091308178" CHILD_NODES_LAYOUT="TOPTOBOTTOM_RIGHT_FLOW">
+<hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
+<font BOLD="true"/>
+<hook NAME="MapStyle" background="#2e3440">
+    <properties show_icon_for_attributes="true" edgeColorConfiguration="#808080ff,#ff0000ff,#0000ffff,#00ff00ff,#ff00ffff,#00ffffff,#7c0000ff,#00007cff,#007c00ff,#7c007cff,#007c7cff,#7c7c00ff" show_note_icons="true" associatedTemplateLocation="template:/dark_nord_template.mm" followedTemplateLocation="template:/dark_nord_template.mm" followedMapLastTime="1695550831000" fit_to_viewport="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node" STYLE="oval" UNIFORM_SHAPE="true" VGAP_QUANTITY="24 pt">
@@ -75,16 +78,14 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="accessories/plugins/AutomaticLayout.properties" VALUE="ALL"/>
-<font BOLD="true"/>
 <node TEXT="$A\sin(\omega x+\varphi)+C$性质" POSITION="bottom_or_right" ID="ID_1028333467" CREATED="1694001527010" MODIFIED="1694091324579" CHILD_NODES_LAYOUT="TOPTOBOTTOM_RIGHT_CENTERED" FORMAT="latexPatternFormat">
 <node TEXT="值域" ID="ID_1528635832" CREATED="1694002126844" MODIFIED="1694002193759"/>
 <node TEXT="单调性" ID="ID_635961260" CREATED="1694002200448" MODIFIED="1694002209538"/>
 <node TEXT="用对称轴（周期）" ID="ID_600281214" CREATED="1694002218433" MODIFIED="1694002238640"/>
 </node>
 <node TEXT="化简方向" POSITION="bottom_or_right" ID="ID_316421215" CREATED="1694001498700" MODIFIED="1694091332870" CHILD_NODES_LAYOUT="TOPTOBOTTOM_RIGHT_FLOW">
-<node TEXT="整式" ID="ID_1557884569" CREATED="1694002445168" MODIFIED="1694164777045">
-<arrowlink DESTINATION="ID_1028333467" STARTINCLINATION="7.5 pt;-21 pt;" ENDINCLINATION="9 pt;11.25 pt;"/>
+<node TEXT="整式" ID="ID_1557884569" CREATED="1694002445168" MODIFIED="1699883289825">
+<arrowlink DESTINATION="ID_1028333467" STARTINCLINATION="-1.5 pt;-12 pt;" ENDINCLINATION="9 pt;19.5 pt;"/>
 <node TEXT="辅助角公式" ID="ID_1654068833" CREATED="1694002554180" MODIFIED="1694164747701"/>
 <node TEXT="二次" ID="ID_179604104" CREATED="1694002580767" MODIFIED="1694164735255">
 <node TEXT="\[\sin\pm\cos\]与\[\sin\cos\]同在" ID="ID_1442413522" CREATED="1694091221674" MODIFIED="1694091289443" FORMAT="latexPatternFormat"/>
