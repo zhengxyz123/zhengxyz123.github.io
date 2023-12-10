@@ -8,10 +8,11 @@
 
 <p>为了解释方便，我规定点$P$就是我们需要判断的那个点。</p>
 <h2 id="圆和椭圆"><a href="#圆和椭圆" class="headerlink" title="圆和椭圆"></a>圆和椭圆</h2><p>如何判断点圆关系是小学二年级的内容，这里不讲了。</p>
+<p>根据椭圆的定义（$|PF_1|+|PF_2|&#x3D;2a$），我们可以算出椭圆的焦点$F_1$、$F_2$，进而求出$|PF_1|+|PF_2|$，若小于$2a$，那么可以得出$P$点在椭圆内部。</p>
 <p>如果想用和判断点圆关系一样的思路，先求得椭圆中心和点$P$之间的距离，再计算那个“半径”吗？椭圆的参数方程$(a\cos\theta, b\sin\theta)$里面的$\theta$怎么求呢？可以用<code>atan2</code>吗？</p>
 <p>答案是<strong>不行</strong>，那个$\theta$表示的并不是绕原点旋转的角度，会有偏差。</p>
 <p>既然椭圆是圆“压扁”变成的，那我们就可以把椭圆重新变成圆。</p>
-<p>设椭圆的长轴（与$x$轴平行）长为$a$，短轴（与$y$轴平行）长为$b$，点的坐标为$(x,y)$。</p>
+<p>设椭圆的长轴（与$x$轴平行）长为$a$，短轴（与$y$轴平行）长为$b$，$P$点的坐标为$(x,y)$。</p>
 <p>把$x$轴的单位长度变为原来的$\frac{b}{a}$，那么椭圆的长轴和短轴都为$b$，成为了圆，点的坐标则变为$(\frac{b}{a}x,y)$。如此，我们就可以用我们熟悉的方法来计算了。</p>
 <h2 id="扇形"><a href="#扇形" class="headerlink" title="扇形"></a>扇形</h2><p>扇形是圆的一部分，我用以下特征来描述一个扇形：圆心、半径、起始角度$\alpha$和圆心角$\beta$。</p>
 <p>首先计算圆心与点$P$的距离，如果大于半径返回假。</p>
@@ -35,7 +36,7 @@
 <h2 id="多边形"><a href="#多边形" class="headerlink" title="多边形"></a>多边形</h2><p>据我所知，判断点是否在多边形里面的算法有两个。</p>
 <p>首先是只适用于凸多边形的分离轴定理（SAT），它通常用来判断两个凸多边形是否相交，如果其中的一个多边形变成了单独的一个点，此算法依然是正确的。</p>
 <p>另一种算法，简而言之：从$P$点向任意方向画一条射线，若该射线与多边形的边的相交次数为奇数次，该点位于多边形内部；否则该点在多边形外。您可以从<a href="https://www.algorithms-and-technologies.com/point_in_polygon/python">该网站</a>获取这个算法的Python代码。</p>
-<h3 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h3><p>将三角形从多边形里面拎出来是有原因的：它有更简单的方法（但不一定快）。</p>
+<h3 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h3><p>将三角形从多边形里面拎出来是有原因的：我想到了一个更简单的方法（但不一定快）。</p>
 <p>现在回忆一下奔驰定理：点$P$为$\triangle ABC$内任意一点，那么以下等式成立：</p>
 <p>$$S_{\triangle PBC}\overrightarrow{AP}+S_{\triangle PAC}\overrightarrow{BP}+S_{\triangle PAB}\overrightarrow{CP}&#x3D;\overrightarrow{0}$$</p>
 <p>据此，我们可以很快地编写算法判断点是否在三角形内。</p>
@@ -50,9 +51,39 @@
       </tags>
   </entry>
   <entry>
+    <title>计算正弦函数的值域</title>
+    <url>/2023/12/10/range-of-sin/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>若想要求出正弦函数（有定义域）的值域，对我们人类来说只需要用“瞪眼法”看着函数图像就能轻松解决。那计算机是如何解决这个问题的呢？以下是我提供的一个思路。</p>
+<span id="more"></span>
+
+<p>首先，这里不建议重复造轮子，因为已经有现成的东西可以帮我们解决问题：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">import</span> mpmath <span class="keyword">as</span> mp</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi = mp.pi</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mp.iv.sin(mp.iv.mpf([-pi/<span class="number">6</span>, <span class="number">5</span>*pi/<span class="number">6</span>]))</span><br><span class="line">mpi(<span class="string">&#x27;-0.5&#x27;</span>, <span class="string">&#x27;1.0&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>不过，对于那些不太想用<code>mpmath</code>库，而想自己实现的人，算法的实现也非常简单。请往下看吧！</p>
+<p>为表述方便，函数$f(x)&#x3D;\sin x$的定义域总是$[a,b]$。</p>
+<p>先从最简单的情况开始：如果$b-a\ge2\pi$，那么值域总是$[-1,1]$。</p>
+<p>其它情况就需要知道函数局部的单调性了。这时候我们就需要正弦函数的导函数：余弦函数。</p>
+<p>一种比较特殊的情况是：当$\cos a\cos b\ge0$且$b-a\ge\dfrac{3\pi}{2}$时，函数的值域仍然为$[-1,1]$。</p>
+<p>当$\cos a\cos b\ge0$且$b-a\le\dfrac{\pi}{2}$时，直接代端点即可。</p>
+<blockquote>
+<p>虽然以上两种情况都是$f(x)$在$x&#x3D;a$以及$x&#x3D;b$的邻域上的单调性相同。前者是因为$b-a$大于$\dfrac{3}{4}$个周期，期间正好有函数的极值点；后者因为$[a,b]$恰好是一个单调区间的子集，所以计算值域可以直接使用端点值。</p>
+</blockquote>
+<p>最后两种情况是我们通常会遇到的：</p>
+<ol>
+<li>当$\cos a&gt;0&gt;\cos b$，$f(x)$有最大值$1$</li>
+<li>当$\cos a&lt;0&lt;\cos b$，$f(x)$有最小值$-1$</li>
+</ol>
+<p>当有最大值$1$时，区间的左端点应该是$\sin a$和$\sin b$中较小的那个。有最小值$-1$的情况与之类似。</p>
+]]></content>
+      <tags>
+        <tag>数学</tag>
+        <tag>计算机科学</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>三角函数笔记</title>
     <url>/2023/09/07/trig-func/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>高三开学已经一周了，数学老师也开始了他的总复习计划。他首先给我们复习的是三角函数部分。在此，我回忆了三角函数的各种知识，并结合复习时的内容，留下了这篇笔记。</p>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>高中的三角函数对于一个高中生来说是很重要的，可以应用在很多地方。在此，我回忆了三角函数的各种知识，并留下了这篇笔记。</p>
 <span id="more"></span>
 
 <p>以下是我使用的三角函数章节的思维导图，它简明扼要的描述了各个知识点之间的关系，前三级子分支有各自对应的标题。</p>
