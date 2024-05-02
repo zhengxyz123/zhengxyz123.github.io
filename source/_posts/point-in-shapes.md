@@ -4,6 +4,8 @@ date: 2023-08-28 18:35:55
 tags:
     - 数学
     - 计算机图形学
+categories:
+    - 编程
 mathjax: true
 ---
 
