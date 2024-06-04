@@ -29,7 +29,7 @@ pluralizeListTitles = false
 summaryLength = 42
 
 # 是否开启 GitHub 风格的 Emoji 书写方式
-enableEmoji = false
+enableEmoji = true
 
 # 脚注的返回链接中的文本
 footnoteReturnLinkContents = "↩"
@@ -122,7 +122,7 @@ uglyURLs = false
     [[related.indices]]
         name = "date"
         weight = 10
-        pattern = "2000"
+        pattern = "2006"
 
 # Atom 文件格式的媒体类型
 [mediaTypes."application/atom+xml"]
@@ -1106,7 +1106,7 @@ uglyURLs = false
     enablePostUpdatedBadge = false
 
     # 是否显示（全局设置）
-    displayUpdatedBadge = true
+    displayUpdatedBadge = false
     # 说明：文章的 Front Matter 中的 `badge`
     #      的优先级高于此处
 
@@ -1332,9 +1332,9 @@ uglyURLs = false
     enableHighlight = true
 
     # 是否开启竖直滚动
-    enableOverflowY = true
+    enableOverflowY = false
     # 最大高度
-    maxHeight = -1
+    maxHeight = 20
     # 单位：em
 
     # 是否开启复制

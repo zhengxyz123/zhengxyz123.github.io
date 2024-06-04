@@ -63,4 +63,3 @@ def iv_sin(a: float, b: float) -> list[float, float]:
         min_value = -1
         return [min_value, max_value]
 ```
-
