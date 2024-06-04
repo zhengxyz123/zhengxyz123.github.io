@@ -1,9 +1,9 @@
 ---
-title: 关于zhengxyz123
-date: 2023-10-14 20:20:13
+title: 关于 zhengxyz123 和他的博客
+date: 2023-10-14T20:20:13Z
 ---
 
-各位看这个博客网站的URL就能知道，这是名为zhengxyz123的GitHub用户的GitHub Pages。那写博客的这家伙是个怎样的人呢？往下看几眼就能够知道了。
+各位看这个博客网站的URL就能知道，这是名为 zhengxyz123 的 GitHub 用户的 GitHub Pages。那写博客的这家伙是个怎样的人呢？往下看几眼就能够知道了。
 
 # 简洁的自我介绍
 计算机是我的副业，没事的时候做个“小”项目放松一下，顺便实现我改变世界的梦想。而且还能和老外交流，练习一下英语。
@@ -24,10 +24,12 @@ date: 2023-10-14 20:20:13
 
 # 作者的其它项目
 
-1. 能将浮点数转换为特定形式的数学表达式的[num2str](https://zhengxyz123.github.io/num2str)
+1. 能将浮点数转换为特定形式的数学表达式的 [num2str](https://zhengxyz123.github.io/num2str)
 2. 英语图书 *But How Do It Know?* 的[中文翻译](https://zhengxyz123.github.io/but-how-do-it-know)
 
 # 搭建博客的工具
-很显然，这个博客是用Hexo构建的，使用了NexT主题，并且托管在GitHub上。
+早些时候这个博客是基于 Hexo 的，使用了 Next 主题。
 
-博客的绝大多数文章在一台运行着Debian的笔记本电脑上用VSCodium写成。
+现在这个博客是用 Hugo 构建的，使用了 Meme 主题，并且托管在 GitHub 上。
+
+博客的绝大多数文章在一台运行着 Debian 的笔记本电脑上用 VSCodium 写成。
