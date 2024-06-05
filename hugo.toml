@@ -32,7 +32,7 @@ summaryLength = 42
 enableEmoji = true
 
 # 脚注的返回链接中的文本
-footnoteReturnLinkContents = "↩"
+footnoteReturnLinkContents = "\u21a9"
 
 # 是否启用 Git 版本信息
 enableGitInfo = false
@@ -898,7 +898,7 @@ uglyURLs = false
     enableCaption = true
 
     # 说明文字的前缀
-    captionPrefix = "◎ "
+    captionPrefix = "\u25ce "
 
 
     ######################################
@@ -1048,7 +1048,7 @@ uglyURLs = false
     ## 首字下沉
 
     # 是否开启（全局设置）
-    enableDropCap = false
+    enableDropCap = true
     # 说明：文章的 Front Matter 中的 `dropCap`
     #      的优先级高于此处
 

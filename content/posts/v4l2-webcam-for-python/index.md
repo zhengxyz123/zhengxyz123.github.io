@@ -1,6 +1,7 @@
 +++
 title = '在 Linux 下使用 V4L2 和 Python 操作 webcam'
 date = '2024-05-01T18:28:53Z'
+toc = true
 categories = ['编程']
 tags = ['linux', 'python']
 +++
@@ -97,8 +98,6 @@ from ctypes import c_uint16 as _u16
 from ctypes import c_uint32 as _u32
 from ctypes import c_void_p
 from enum import IntEnum
-
-from ioctl import _IOR, _IOW, _IOWR
 ```
 
 C 中的枚举使用继承自 `IntEnum` 的类来表示。
@@ -173,7 +172,6 @@ Linux 中“一切皆文件”，摄像头设备可以通过 `/dev/videoX`（`X`
 
 ```python
 import ctypes, mmap, os
-from v4l2 import *
 
 fd = os.open("/dev/video0", os.O_RDWR)
 ```

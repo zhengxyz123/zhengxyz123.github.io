@@ -28,8 +28,8 @@ date = 2023-10-14T20:20:13Z
 2. 英语图书 *But How Do It Know?* 的[中文翻译](https://zhengxyz123.github.io/but-how-do-it-know)
 
 ## 搭建博客的工具
-早些时候这个博客是基于 Hexo 的，使用了 Next 主题。
+早些时候这个博客是基于 Hexo 的，使用了 NexT 主题，并且托管在 GitHub 上。
 
-现在这个博客是用 Hugo 构建的，使用了 Meme 主题，并且托管在 GitHub 上。
+在 2024 年 6 月的时候整个博客迁移到了 Hugo，使用了 MemE 主题。
 
 博客的绝大多数文章在一台运行着 Debian 的笔记本电脑上用 VSCodium 写成。
