@@ -377,7 +377,7 @@ uglyURLs = false
     displayPosts = true
 
     # 是否显示每一分类下的文章数
-    displayPostsCount = true
+    displayPostsCount = false
 
     # 设置一个非负数来限制每一分类下展示的文章数
     limitPostsLimit = -1
