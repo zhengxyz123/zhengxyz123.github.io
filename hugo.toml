@@ -50,12 +50,10 @@ uglyURLs = false
 
 # URL 结构
 [permalinks]
-    categories = "/categories/:slug/"
     tags = "/tags/:slug/"
 
 # 类别
 [taxonomies]
-    category = "categories"
     tag = "tags"
 
 # 修改时间
@@ -105,6 +103,8 @@ uglyURLs = false
     email = "zhengxyz123@gmail.com"
     # 座右铭或简介
     motto = "人生如梦，一尊还酹江月"
+    # 网站（默认值：baseURL）
+    website = "https://zhengxyz123.github.io/"
     # 头像
     avatar = "/icons/apple-touch-icon.png"
 
@@ -113,9 +113,9 @@ uglyURLs = false
     threshold = 80
     includeNewer = true
     toLower = true
-    [[related.indices]]
-        name = "categories"
-        weight = 100
+    # [[related.indices]]
+    #     name = "categories"
+    #     weight = 100
     [[related.indices]]
         name = "tags"
         weight = 95
@@ -161,7 +161,7 @@ uglyURLs = false
 
 # RSS & Atom 文章数限制
 [services.rss]
-    limit = -1
+    limit = 10
 
 
 
@@ -190,31 +190,37 @@ uglyURLs = false
 [menu]
     ## 菜单栏
     [[menu.main]]
-        pageref = "/posts/"
-        name = "文章"
+        pageref = "/life/"
+        name = "生活"
         weight = 1
+        pre = "innternal"
+        post = "mountain-sun"
+    [[menu.main]]
+        pageref = "/coding/"
+        name = "编程"
+        weight = 2
         pre = "internal"
-        post = "archive"
+        post = "code"
     [[menu.main]]
         pageref = "/categories/"
         name = "分类"
-        weight = 2
+        weight = 3
         pre = "internal"
         post = "th"
     [[menu.main]]
         pageref = "/tags/"
         name = "标签"
-        weight = 3
+        weight = 4
         pre = "internal"
         post = "tags"
     [[menu.main]]
         pageref = "/about/"
         name = "关于"
-        weight = 4
+        weight = 5
         pre = "internal"
         post = "user-circle"
     [[menu.main]]
-        weight = 5
+        weight = 6
         identifier = "theme-switcher"
 
 
@@ -356,7 +362,7 @@ uglyURLs = false
     # 的树状分类，故如需保留树状分类，建议适应
     # Hugo 的设计理念——分区。
 
-    categoryBy = "categories"
+    categoryBy = "sections"
     # 注意：如果你设置为 `sections`，请务必将
     #      此配置文件中的类别（taxonomies）中
     #      的 `categories` 删除，不然分类页
@@ -377,7 +383,7 @@ uglyURLs = false
     displayPosts = true
 
     # 是否显示每一分类下的文章数
-    displayPostsCount = false
+    displayPostsCount = true
 
     # 设置一个非负数来限制每一分类下展示的文章数
     limitPostsLimit = -1
@@ -456,7 +462,7 @@ uglyURLs = false
     # Atom & RSS
 
     # 是否包括全文内容
-    includeContent = true
+    includeContent = false
     # 说明：如果否，则只会包含文章的摘要。关于摘
     #      要，Hugo 能按你设置的字数限制自动截
     #      取，你也可以在文章中通过
@@ -1222,7 +1228,7 @@ uglyURLs = false
     enablePostNav = true
 
     # 是否仅限于相同的文章分区
-    postNavInSection = true
+    postNavInSection = false
 
 
     ######################################
@@ -1391,7 +1397,7 @@ uglyURLs = false
     ######################################
     # Instant Page
 
-    enableInstantPage = true
+    enableInstantPage = false
     # 说明：https://github.com/instantpage/instant.page
 
 

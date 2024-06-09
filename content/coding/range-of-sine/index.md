@@ -1,7 +1,6 @@
 +++
 title = "计算正弦函数的值域"
 date = 2023-12-10T11:47:15Z
-categories = ["编程"]
 tags = ["数学", "计算机科学"]
 katex = true
 +++

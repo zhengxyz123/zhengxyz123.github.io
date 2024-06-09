@@ -1,7 +1,6 @@
 +++
 title = "判断点是否在形状内"
 date = 2023-08-28T18:35:55Z
-categories = ["编程"]
 tags = ["数学", "游戏开发"]
 katex = true
 +++
