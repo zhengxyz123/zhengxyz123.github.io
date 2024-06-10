@@ -1,6 +1,6 @@
 +++
 title = '在 Linux 下使用 V4L2 和 Python 操作 webcam'
-date = '2024-05-01T18:28:53Z'
+date = 2024-05-01T18:28:53+08:00
 toc = true
 tags = ['linux', 'python']
 +++
