@@ -1,23 +1,23 @@
 +++
-title = '在 Linux 下使用 V4L2 和 Python 操作 webcam'
+title = '在Linux下使用V4L2和Python操作webcam'
 date = 2024-05-01T18:28:53+08:00
 toc = true
 tags = ['linux', 'python']
 +++
 
-这篇博客介绍的是如何用 Python 创建对 V4L2 的封装，以实现摄像头的打开、关闭、读取等操作。
+这篇博客介绍的是如何用Python创建对V4L2的封装，以实现摄像头的打开、关闭、读取等操作。
 
 <!--more-->
 
 ## V4L2 for Python
-[V4L2](https://zh.wikipedia.org/Video4Linux) 是 Linux 的一个驱动程序框架，用来驱动摄像头等设备。
+[V4L2](https://zh.wikipedia.org/Video4Linux)是Linux的一个驱动程序框架，用来驱动摄像头等设备。
 
-所有的 V4L2 api 都可以通过 [ioctl](https://www.man7.org/linux/man-pages/man2/ioctl.2.html) 来访问，我们只需要把相关的头文件里面的枚举、结构体和常量用 Python 全部声明一遍就可以了。
+所有的V4L2 api都可以通过[ioctl](https://www.man7.org/linux/man-pages/man2/ioctl.2.html)来访问，我们只需要把相关的头文件里面的枚举、结构体和常量用Python全部声明一遍就可以了。
 
 ### 实现 ioctl
-尽管 Python 标准库有一个 [fcntl](https://docs.python.org/zh-cn/3/library/fcntl.html) 模块，该模块提供了 `ioctl` 函数。但这是远远不够的，我们还需要 `linux/ioctl.h` 头文件里的函数来生成调用 `ioctl` 所需的 `request` 参数。
+尽管Python标准库有一个[fcntl](https://docs.python.org/zh-cn/3/library/fcntl.html)模块，该模块提供了`ioctl`函数。但这是远远不够的，我们还需要`linux/ioctl.h`头文件里的函数来生成调用`ioctl`所需的`request`参数。
 
-下面的代码实现了这些函数，同时对 `_IOR`、`_IOW` 和 `_IOWR` 进行了封装。
+下面的代码实现了这些函数，同时对`_IOR`、`_IOW`和`_IOWR`进行了封装。
 
 ```python
 from ctypes import sizeof
@@ -81,12 +81,13 @@ def _IOWR(type, nr, struct):
 ```
 
 ### 重写头文件
-我们需要用 Python 重写以下 2 个头文件，包括部分用得到的枚举、结构体和常量。
+我们需要用Python重写以下2个头文件，包括部分用得到的枚举、结构体和常量。
 
 1. `linux/videodev2.h`
 2. `linux/v4l2-controls.h`
 
-首先，导入所需模块。`_s32` 表示头文件中的 `__s32` 类型，以此类推。
+首先，导入所需模块。`_s32`表示头文件中的 `__s32` 类型，以此类推。
+
 
 ```python
 import ctypes
@@ -99,7 +100,7 @@ from ctypes import c_void_p
 from enum import IntEnum
 ```
 
-C 中的枚举使用继承自 `IntEnum` 的类来表示。
+C 中的枚举使用继承自`IntEnum`的类来表示。
 
 ```python
 # /usr/include/linux/videodev2.h:139
@@ -121,7 +122,7 @@ class v4l2_buf_type(IntEnum):
     V4L2_BUF_TYPE_PRIVATE = 0x80  # deprecated
 ```
 
-C 中的结构体用 `ctypes.Structure` 构造。
+C 中的结构体用`ctypes.Structure`构造。
 
 ```python
 # /usr/include/linux/videodev2.h:435
@@ -137,7 +138,7 @@ class v4l2_capability(ctypes.Structure):
     ]
 ```
 
-`timeval` 结构体是在别处声明的，需要特别注意！
+`timeval`结构体是在别处声明的，需要特别注意！
 
 ```python
 class timeval(ctypes.Structure):
@@ -161,10 +162,10 @@ v4l2_clip._fields_ = [
 ]
 ```
 
-如果你想亲自动手完成以上所有枯燥且乏味的操作是非常好的。如果你很懒，作者在写这篇博客前就已经写好了博客中所有用得到的代码，所有的文件在 [GitHub](https://github.com/zhengxyz123/webcam) 上都可以找到。
+如果你想亲自动手完成以上所有枯燥且乏味的操作是非常好的。如果你很懒，作者在写这篇博客前就已经写好了博客中所有用得到的代码，所有的文件在[GitHub](https://github.com/zhengxyz123/webcam)上都可以找到。
 
 ## 操作摄像头
-Linux 中“一切皆文件”，摄像头设备可以通过 `/dev/videoX`（`X` 是从 0 到 63 的整数）文件来访问。通常我们的电脑上只有一个摄像头，使用 `/dev/video0` 就可以了。
+Linux 中“一切皆文件”，摄像头设备可以通过`/dev/videoX`（`X`是从0到63的整数）文件来访问。通常我们的电脑上只有一个摄像头，使用`/dev/video0`就可以了。
 
 ### 检查摄像头
 第一步，打开设备。
@@ -175,7 +176,7 @@ import ctypes, mmap, os
 fd = os.open("/dev/video0", os.O_RDWR)
 ```
 
-第二步，用 `VIDIOC_QUERYCAP` 检查设备是否支持视频捕获和流式读取。
+第二步，用`VIDIOC_QUERYCAP`检查设备是否支持视频捕获和流式读取。
 
 ```python
 cap = VIDIOC_QUERYCAP(fd)
@@ -207,7 +208,7 @@ while True:
     available_pixfmt.append(fmt.pixelformat)
 ```
 
-第四步，设置设备的输出格式。这里我们假装设备支持 `MJPEG` 格式。
+第四步，设置设备的输出格式。这里我们假装设备支持`MJPEG`格式。
 
 ```python
 fmt = v4l2_format(type=v4l2_buf_type.V4L2_BUF_TYPE_VIDEO_CAPTURE)
