@@ -24,7 +24,7 @@ date = 2023-10-14T20:20:13Z
 
 ## 作者的其它项目
 
-1. 能将浮点数转换为特定形式的数学表达式的 [num2str](https://zhengxyz123.github.io/num2str)
+1. 能将浮点数转换为特定形式的数学表达式的[num2str](https://zhengxyz123.github.io/num2str)
 2. 英语图书 *But How Do It Know?* 的[中文翻译](https://zhengxyz123.github.io/but-how-do-it-know)
 
 ## 搭建博客的工具
@@ -32,4 +32,4 @@ date = 2023-10-14T20:20:13Z
 
 在 2024 年 6 月的时候整个博客迁移到了 Hugo，使用了 MemE 主题。
 
-博客的绝大多数文章在一台运行着 Debian 的笔记本电脑上用 VSCodium 写成。
+博客的绝大多数文章在一台运行着 Arch Linux 的笔记本电脑上用 VSCodium 写成。

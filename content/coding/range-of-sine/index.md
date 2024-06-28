@@ -44,7 +44,7 @@ mpi('-0.5', '1.0')
 ```python
 from math import sin, cos, pi
 
-def iv_sin(a: float, b: float) -> list[float, float]:
+def iv_sin(a: float, b: float) -> list[float]:
     assert b >= a, "b must bigger than a"
     if b - a >= 2 * pi:
         return [-1, 1]

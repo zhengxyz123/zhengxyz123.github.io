@@ -17,7 +17,7 @@ tags = ['linux', 'python']
 ### 实现 ioctl
 尽管Python标准库有一个[fcntl](https://docs.python.org/zh-cn/3/library/fcntl.html)模块，该模块提供了`ioctl`函数。但这是远远不够的，我们还需要`linux/ioctl.h`头文件里的函数来生成调用`ioctl`所需的`request`参数。
 
-下面的代码实现了这些函数，同时对`_IOR`、`_IOW`和`_IOWR`进行了封装。
+下面的代码实现了这些函数，同时对 `_IOR`、`_IOW`和 `_IOWR` 进行了封装。
 
 ```python
 from ctypes import sizeof

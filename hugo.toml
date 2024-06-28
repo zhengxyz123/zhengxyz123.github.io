@@ -828,7 +828,7 @@ uglyURLs = false
     wordCountIcon = "pencil-alt"
 
     # 是否显示阅读时长
-    displayReadingTime = false
+    displayReadingTime = true
     # 阅读时长的图标
     readingTimeIcon = "clock"
 
