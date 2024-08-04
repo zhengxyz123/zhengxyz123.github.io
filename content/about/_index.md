@@ -6,7 +6,7 @@ date = 2023-10-14T20:20:13Z
 各位看这个博客网站的URL就能知道，这是名为 zhengxyz123 的 GitHub 用户的 GitHub Pages。那写博客的这家伙是个怎样的人呢？往下看几眼就能够知道了。
 
 ## 简洁的自我介绍
-现在我是上海电力大学信息管理与信息系统专业的一名本科生（录取通知书还没到，所以我们姑且算半个）。
+现在我是上海电力大学信息管理与信息系统专业的一名本科生（还没开学，所以我们姑且算半个）。
 
 计算机是我的主业的同时也是副业，没事的时候做个“小”项目放松一下，顺便实现我改变世界的梦想。而且还能和老外交流，练习一下英语。
 
@@ -25,9 +25,9 @@ date = 2023-10-14T20:20:13Z
 3. 写作业
 
 ## 作者的其它项目
-
-1. 能将浮点数转换为特定形式的数学表达式的[num2str](https://zhengxyz123.github.io/num2str)
-2. 英语图书 *But How Do It Know?* 的[中文翻译](https://zhengxyz123.github.io/but-how-do-it-know)
+1. 简单的科学计算器[zcalc](https://github.com/zhengxyz123/zcalc)
+2. 能将浮点数转换为特定形式的数学表达式的[num2str](https://zhengxyz123.github.io/num2str)
+3. 英语图书 *But How Do It Know?* 的[中文翻译](https://zhengxyz123.github.io/but-how-do-it-know)
 
 ## 搭建博客的工具
 早些时候这个博客是基于 Hexo 的，使用了 NexT 主题，并且托管在 GitHub 上。
