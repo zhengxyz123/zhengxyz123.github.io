@@ -32,7 +32,7 @@ katex = true
 ## 矩形
 这个超级简单，算法如下：
 ```python
-# (x, y) 是矩形左下角的坐标，width 和 height 是矩形的长和宽。
+# (x, y) 是矩形左下角的坐标，width 和 height 是矩形的长和宽
 # (px, py) 是任意一点 P
 # 若以下表达式为 True 则说明点P在矩形内
 (x < px < x + width) and (y < py < y + height)
