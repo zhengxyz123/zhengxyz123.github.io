@@ -190,37 +190,25 @@ uglyURLs = false
 [menu]
     ## 菜单栏
     [[menu.main]]
-        pageref = "/life/"
-        name = "生活"
-        weight = 1
-        pre = "internal"
-        post = "mountain-sun"
-    [[menu.main]]
-        pageref = "/coding/"
-        name = "编程"
-        weight = 2
-        pre = "internal"
-        post = "code"
-    [[menu.main]]
         pageref = "/categories/"
         name = "分类"
-        weight = 3
+        weight = 1
         pre = "internal"
         post = "th"
     [[menu.main]]
         pageref = "/tags/"
         name = "标签"
-        weight = 4
+        weight = 2
         pre = "internal"
         post = "tags"
     [[menu.main]]
         pageref = "/about/"
         name = "关于"
-        weight = 5
+        weight = 3
         pre = "internal"
         post = "user-circle"
     [[menu.main]]
-        weight = 6
+        weight = 4
         identifier = "theme-switcher"
 
 
