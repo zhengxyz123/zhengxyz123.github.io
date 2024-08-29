@@ -79,6 +79,7 @@ uglyURLs = false
             attribute = true
             autoHeadingID = true
             autoHeadingIDType = "github"
+            wrapStandAloneImageWithinParagraph = false
         [markup.goldmark.renderer]
             hardWraps = false
             unsafe = true
@@ -107,9 +108,9 @@ uglyURLs = false
     # 座右铭或简介
     motto = "人生如梦，一尊还酹江月"
     # 网站（默认值：baseURL）
-    website = "https://zhengxyz123.github.io/"
+    website = "https://github.com/zhengxyz123"
     # 头像
-    avatar = "/icons/apple-touch-icon.png"
+    avatar = "/about/avatar.png"
 
 # 相关文章
 [related]
@@ -320,7 +321,7 @@ uglyURLs = false
     # 站点信息
 
     # 站点的 LOGO
-    siteLogo = "/icons/apple-touch-icon.png"
+    siteLogo = "/about/avatar.png"
     # 说明：用于 JSON-LD、Open Graph
 
     # 站点的描述

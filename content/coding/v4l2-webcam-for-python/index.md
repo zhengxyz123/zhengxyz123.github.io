@@ -12,7 +12,7 @@ tags = ['linux', 'python']
 ## V4L2 for Python
 [V4L2](https://zh.wikipedia.org/Video4Linux)是Linux的一个驱动程序框架，用来驱动摄像头等设备。
 
-所有的V4L2 api都可以通过[ioctl](https://www.man7.org/linux/man-pages/man2/ioctl.2.html)来访问，我们只需要把相关的头文件里面的枚举、结构体和常量用Python全部声明一遍就可以了。
+所有的V4L2 API都可以通过[ioctl](https://www.man7.org/linux/man-pages/man2/ioctl.2.html)来访问，我们只需要把相关的头文件里面的枚举、结构体和常量用Python全部声明一遍就可以了。
 
 ### 实现 ioctl
 尽管Python标准库有一个[fcntl](https://docs.python.org/zh-cn/3/library/fcntl.html)模块，该模块提供了`ioctl`函数。但这是远远不够的，我们还需要`linux/ioctl.h`头文件里的函数来生成调用`ioctl`所需的`request`参数。
