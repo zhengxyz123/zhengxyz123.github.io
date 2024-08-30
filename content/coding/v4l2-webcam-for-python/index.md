@@ -2,7 +2,7 @@
 title = '在Linux下使用V4L2和Python操作webcam'
 date = 2024-05-01T18:28:53+08:00
 toc = true
-tags = ['linux', 'python']
+tags = ['Linux', 'Python']
 +++
 
 这篇博客介绍的是如何用Python创建对V4L2的封装，以实现摄像头的打开、关闭、读取等操作。
