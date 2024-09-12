@@ -1,7 +1,7 @@
 +++
 title = "EasierConnect——EasyConnect的开源替代"
 date = 2024-08-30T16:42:08+08:00
-tags = ["Linux", "EasyConnect"]
+tags = ["Linux", "EasyConnect", "校园网"]
 +++
 
 上过大学的人都知道：校园网的很多功能必须开启VPN才能使用。很多学校选择一款叫EasyConnect的软件来提供VPN连接，但它对Linux用户[极其不友好](https://www.wannaexpresso.com/2020/06/07/easy-connect-manjaro/)。在这篇博客中，我将介绍其开源替代的编译步骤和使用方法。
