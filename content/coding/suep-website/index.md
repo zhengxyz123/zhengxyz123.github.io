@@ -36,6 +36,8 @@ tags = ["校园网", "闲话"]
 
 若用户名和密码无误，在POST后会跳转至特定网页并设置`iPlanetDirectoryPro`和`CASTGC`两个cookies；若登陆失败则状态码被设置为200。
 
+若想退出登陆，只需GET一下`https://ids.shiep.edu.cn/authserver/logout`即可。
+
 ## 学生事务及管理系统
 上海电力大学学生事务及管理系统（<https://estudent.shiep.edu.cn>）为我们提供了一些看似有用实则没用的小功能。
 
