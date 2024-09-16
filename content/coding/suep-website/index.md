@@ -51,7 +51,7 @@ tags = ["校园网", "闲话"]
 ### 一卡通服务平台
 一卡通服务平台（需要VPN）的登陆过程非常抽象，只登陆统一身份认证平台还不够，我将向您展示具体的HTML来说明：
 ```html
-<form id="loginForm" action="" method="post" style="display: hidden">
+<form id="loginForm" action="" method="post" style="display: hidden;">
     <input type="hidden" name="errorcode" value="1" />
     <input type="hidden" name="continueurl" value="http://10.168.103.76/sfrzwhlgportalHome.action" />
     <input type="hidden" name="ssoticketid" value="<学号>" />
@@ -72,9 +72,7 @@ tags = ["校园网", "闲话"]
 ## 能源管理
 能源管理系统（<http://10.50.2.206>，需要VPN）为学生提供了宿舍电费充值及查看电表参数等功能。
 
-当用户在浏览器的地址栏输入网址后，无论统一身份认证平台登陆与否，都会跳转到`https://ids.shiep.edu.cn/authserver/login?service=http://10.50.2.206:80&renew=true`再次登陆，在POST一些数据到相同的URL后又会跳转到`http://10.50.2.206?ticket=<一串字符>`，最终会跳转到`http://10.50.2.206`以供用户访问。
-
-以上只是在浏览器上登陆的情况。在我根据相同逻辑编写程序的时候，最终会跳转到一个404页面`http://10.50.2.206:80/undefined`。不过这对最终结果并没有什么影响，之后便能正常获取到能源管理系统的页面。
+每次访问能源管理系统都会要求用户重新登陆，参照登陆统一身份认证平台的步骤并POST数据到`https://ids.shiep.edu.cn/authserver/login?service=http://10.50.2.206:80/&renew=true`即可。
 
 通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数，响应是一个JSON，其各键的含义如下：
 
@@ -114,7 +112,7 @@ tags = ["校园网", "闲话"]
 通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)，响应是一个JSON，其各键含义如下（`n`是一个自然数）：
 
 - `success` - 成功与否
-- `info[n].oid` - 未知
+- `info[n].oid` - 流水号
 - `info[n].type` - 项目名
 - `info[n].money` - 付款金额
 - `info[n].room` - 房间号
