@@ -76,7 +76,7 @@ tags = ["校园网", "闲话"]
 
 通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数，响应是一个JSON，其各键的含义如下：
 
-- `sucess` - 成功与否
+- `success` - 成功与否
 - `info[0].mid` - 未知
 - `info[0].type` - 未知
 - `info[0].recharges` - 充值次数
