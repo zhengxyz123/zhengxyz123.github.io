@@ -22,7 +22,7 @@ tags = ["校园网", "闲话"]
 - `rememberMe` - 一周内免登陆，若勾选则设置为`on`，否则不包含在请求中
 - `lt` - 未知（隐藏）
 - `dllt` - 未知（隐藏，总是为`userNamePasswordLogin`）
-- `execution` - 未知（隐藏，总是为`eNsM`，`N`、`M`为正整数，`N`可能代表页面刷新的次数，`M`可能表示登陆失败的次数）
+- `execution` - 未知（隐藏，总是为`eNsM`，`N`、`M`为正整数，`N-1`可能代表页面刷新的次数，`M-1`可能表示登陆失败的次数）
 - `_eventId` - 未知（隐藏，总是为`submit`）
 - `rmShown` - 未知（隐藏，总是为`1`）
 
@@ -118,6 +118,15 @@ tags = ["校园网", "闲话"]
 - `info[n].room` - 房间号
 - `info[n].quantity` - 购电量
 - `info[n].datetime` - 日期
+
+## 上电云盘
+上电云盘（<https://pan.shiep.edu.cn>，需要VPN）给每个学生都提供了50GB的存储空间，也可以用来交作业，但是老师偏偏就喜欢用其它的软件来达到相同的目的。
+
+云盘在第一次登陆的时候会由JavaScript设置一个很重要的cookie。由于脚本经过混淆，且可能使用了某些浏览器API，所以云盘的登陆过程会有些特别。
+
+首先，请参照登陆统一身份认证平台的步骤并POST数据到`https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`。
+
+之后，会跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
 
 ## 后记
 这篇博客的大部分内容是我大一刚刚开学后的军训期间（14天）完成的。最开始我只是想研究校园网是如何登陆的，后来我就想把上电学生常用的功能都研究一遍，便诞生了[suep-toolkit](https://github.com/zhengxyz123/suep-toolkit)项目以及本博客。
