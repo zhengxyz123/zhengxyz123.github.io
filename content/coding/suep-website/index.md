@@ -14,7 +14,7 @@ tags = ["校园网", "闲话"]
 ## 统一身份认证平台
 统一身份认证平台（<https://ids.shiep.edu.cn>）提供了登陆上海电力大学各校园网服务的功能。
 
-登陆功能通过POST一个id为`casLoginForm`的表单到`https://ids.shiep.edu.cn/authserver/login?service=<服务的URL>`实现，表单有如下几个输入元素：
+登陆功能通过POST一个表单到`https://ids.shiep.edu.cn/authserver/login?service=<服务的URL>`实现，表单数据如下：
 
 - `username` - 用户名
 - `password` - 密码
@@ -32,11 +32,11 @@ tags = ["校园网", "闲话"]
 
 若要获取验证码图片，需要GET `https://ids.shiep.edu.cn/authserver/captcha.html?ts=<当前时间戳>`。响应的内容包含一幅JPEG图像。
 
-> 时间戳可能不是必须的，只是为了防止浏览器缓存罢了。
-
 若用户名和密码无误，在POST后会跳转至特定网页并设置`iPlanetDirectoryPro`和`CASTGC`两个cookies；若登陆失败则状态码被设置为200。
 
 若想退出登陆，只需GET一下`https://ids.shiep.edu.cn/authserver/logout`即可。
+
+如果在之后想要检测用户是否登陆，可查看返回的HTML中有无`div.auth_page_wrapper`的元素。
 
 ## 学生事务及管理系统
 上海电力大学学生事务及管理系统（<https://estudent.shiep.edu.cn>）为我们提供了一些看似有用实则没用的小功能。
@@ -51,7 +51,7 @@ tags = ["校园网", "闲话"]
 ### 一卡通服务平台
 一卡通服务平台（需要VPN）的登陆过程非常抽象，只登陆统一身份认证平台还不够，我将向您展示具体的HTML来说明：
 ```html
-<form id="loginForm" action="" method="post" style="display: hidden;">
+<form id="loginForm" action="" method="post" style="display: hidden">
     <input type="hidden" name="errorcode" value="1" />
     <input type="hidden" name="continueurl" value="http://10.168.103.76/sfrzwhlgportalHome.action" />
     <input type="hidden" name="ssoticketid" value="<学号>" />
@@ -61,6 +61,12 @@ tags = ["校园网", "闲话"]
     document.getElementById('loginForm').submit();
 </script>
 ```
+
+即我们要POST一个表单到`http://10.168.103.76/sfrzwhlgportalHome.action`，表单数据如下：
+
+- `errorcode` - 总是为`1`
+- `continueurl` - 总是为`http://10.168.103.76/sfrzwhlgportalHome.action`
+- `ssoticketid` - 学号
 
 经过尝试，POST后的响应即是一卡通服务平台的主页。
 
@@ -125,7 +131,9 @@ tags = ["校园网", "闲话"]
 
 如果充值电量是一个负数或一个超大整数，`info`项会被设置为`"请输入正整数"`；若充值电量不是数字，则`info`被设置为`"错误的充值电量"`。
 
-**请大家不要在浏览器之外尝试充值电费的功能！如果充值成功的话就会扣除校园卡里面的钱！**
+**请大家不要在浏览器之外尝试充值电费的功能！** \
+**如果充值成功的话就会扣除校园卡里面的钱！**
+{style="width: 90%; margin: 0 auto; text-align: center"}
 
 通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)，响应是一个JSON，其结构如下：
 
@@ -151,7 +159,7 @@ tags = ["校园网", "闲话"]
 ## 上电云盘
 上电云盘（<https://pan.shiep.edu.cn>，需要VPN）给每个学生都提供了50GB的存储空间，也可以用来交作业，但是老师偏偏就喜欢用其它的软件来达到相同的目的。
 
-云盘在第一次登陆的时候会由JavaScript设置一个很重要的cookie。由于脚本经过混淆，且可能使用了某些浏览器API，所以云盘的登陆过程会有些特别。
+登陆云盘需要一些额外的步骤，请仔细阅读。
 
 首先，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
 
