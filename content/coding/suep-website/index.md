@@ -74,27 +74,39 @@ tags = ["校园网", "闲话"]
 
 每次访问能源管理系统都会要求用户重新登陆，参照登陆统一身份认证平台的步骤并POST数据到`https://ids.shiep.edu.cn/authserver/login?service=http://10.50.2.206:80/&renew=true`即可。
 
-通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数，响应是一个JSON，其各键的含义如下：
+通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数，响应是一个JSON，其结构如下：
 
-- `success` - 成功与否
-- `info[0].mid` - 未知
-- `info[0].type` - 未知
-- `info[0].recharges` - 充值次数
-- `info[0].reskwh` - 剩余电量
-- `info[0].P` - 功率
-- `info[0].U` - 电压
-- `info[0].I` - 未知
-- `info[0].FP` - 功率因数
-- `info[0].limit` - 功率限制
-- `info[0].state` - 电表状态
-- `info[0].room` - 楼宇房间号
+```javascript
+{
+    "success": true, // 成功与否
+    "info": [
+        "mid": 2, // 未知
+        "type": 0, // 未知
+        "recharges": 1, // 充值次数
+        "reskwh": 100.0, // 剩余电量
+        "P": 1, // 功率
+        "U": 1, // 电压
+        "I": 0, // 未知
+        "FP": 1.0, // 功率因数
+        "limit": 29700, // 功率限制
+        "state": 0, // 电表状态
+        "room": "C1-A101" // 公寓房间号
+    ]
+}
+```
 
-通过GET `http://10.50.2.206/api/charge/GetRoom?_dc=<当前时间戳>`可以获取用户所住的学生公寓号及房间号，响应是一个JSON，其各键的含义如下：
+通过GET `http://10.50.2.206/api/charge/GetRoom?_dc=<当前时间戳>`可以获取用户所住的学生公寓号及房间号，响应是一个JSON，其结构如下：
 
-- `success` - 成功与否
-- `info[0].building` - 公寓号
-- `info[0].room` - 房间号
-- `info[0].kwh` - 总是为`100`
+```javascript
+{
+    "success": true, // 成功与否
+    "info": [
+        "building": "C1", // 公寓号
+        "room": "A101", // 房间号
+        "kwh": 100 // 63.6 元
+    ]
+}
+```
 
 通过POST到`http://10.50.2.206/api/charge/Submit?_dc=<当前时间戳>`可以充值电费，POST的表单如下：
 
@@ -102,31 +114,46 @@ tags = ["校园网", "闲话"]
 - `room` - 房间号
 - `kwh` - 充值电量
 
-其响应是一个JSON，各键含义如下：
+其响应是一个JSON，其结构：
 
-- `success` - 成功与否
-- `info` - 显示在界面上的信息
+```javascript
+{
+    "success": true, // 成功与否
+    "info": "交易成功" // 显示在界面上的信息
+}
+```
+
+如果充值电量是一个负数或一个超大整数，`info`项会被设置为`"请输入正整数"`；若充值电量不是数字，则`info`被设置为`"错误的充值电量"`。
 
 **请大家不要在浏览器之外尝试充值电费的功能！如果充值成功的话就会扣除校园卡里面的钱！**
 
-通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)，响应是一个JSON，其各键含义如下（`n`是一个自然数）：
+通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)，响应是一个JSON，其结构如下：
 
-- `success` - 成功与否
-- `info[n].oid` - 流水号
-- `info[n].type` - 项目名
-- `info[n].money` - 付款金额
-- `info[n].room` - 房间号
-- `info[n].quantity` - 购电量
-- `info[n].datetime` - 日期
+```javascript
+{
+    "success": true, // 成功与否
+    "info": [
+        {
+            "oid": 1234567, // 流水号
+            "type": "电费", // 项目名
+            "money": 0.64, // 付款金额
+            "room": "C1-A101", // 房间号
+            "quantity": 1, // 购电量
+            "datetime": "2024-01-01 00:00:00" // 日期
+        },
+        {
+            ...
+        }
+    ]
+}
+```
 
 ## 上电云盘
 上电云盘（<https://pan.shiep.edu.cn>，需要VPN）给每个学生都提供了50GB的存储空间，也可以用来交作业，但是老师偏偏就喜欢用其它的软件来达到相同的目的。
 
 云盘在第一次登陆的时候会由JavaScript设置一个很重要的cookie。由于脚本经过混淆，且可能使用了某些浏览器API，所以云盘的登陆过程会有些特别。
 
-首先，请参照登陆统一身份认证平台的步骤并POST数据到`https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`。
-
-之后，会跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
+首先，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
 
 ## 后记
 这篇博客的大部分内容是我大一刚刚开学后的军训期间（14天）完成的。最开始我只是想研究校园网是如何登陆的，后来我就想把上电学生常用的功能都研究一遍，便诞生了[suep-toolkit](https://github.com/zhengxyz123/suep-toolkit)项目以及本博客。
