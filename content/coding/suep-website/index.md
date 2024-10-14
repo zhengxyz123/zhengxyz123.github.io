@@ -75,6 +75,12 @@ tags = ["校园网", "闲话"]
 
 教务系统提供了两种登陆方式：“统一身份认证”和“直接登陆教务系统”。对于前者，只要成功登陆了统一身份认证平台就能通过GET `https://jw.shiep.edu.cn/eams/login.action`进入教务系统主页；若选择后者，需要输入验证码，不是特别推荐。
 
+如果有获取当前教学周的需求，可以访问教务处主页（<https://jwc.shiep.edu.cn>）获取。
+
+在`div#semester_start`和`div#semester_end`中分别以`YYYY-MM-DD`的形式存储着学期开始和截止的日期。
+
+如果某日期小于学期开始日期或大于学期截止日期，且该月大于5月，则为暑假；否则为寒假。
+
 ## 能源管理
 能源管理系统（<http://10.50.2.206>，需要VPN）为学生提供了宿舍电费充值及查看电表参数等功能。
 
@@ -163,6 +169,8 @@ tags = ["校园网", "闲话"]
 登陆云盘需要一些额外的步骤，请仔细阅读。
 
 首先，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
+
+云盘的API非常复杂，这里不适合叙述。但是在[这个页面](https://pan.shiep.edu.cn/#/developers)可以下载API的文档。
 
 ## 后记
 这篇博客的大部分内容是我大一刚刚开学后的军训期间（14天）完成的。最开始我只是想研究校园网是如何登陆的，后来我就想把上电学生常用的功能都研究一遍，便诞生了[suep-toolkit](https://github.com/zhengxyz123/suep-toolkit)项目以及本博客。
