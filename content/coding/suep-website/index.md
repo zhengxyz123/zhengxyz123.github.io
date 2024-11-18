@@ -14,7 +14,7 @@ tags = ["校园网", "闲话"]
 ## 统一身份认证平台
 统一身份认证平台（<https://ids.shiep.edu.cn>）提供了登陆上海电力大学各校园网服务的功能。
 
-登陆功能通过POST一个表单到`https://ids.shiep.edu.cn/authserver/login?service=<服务的URL>`实现，表单数据如下：
+登陆功能通过POST一个表单到`https://ids.shiep.edu.cn/authserver/login`实现，表单数据如下：
 
 - `username` - 用户名
 - `password` - 密码
@@ -34,7 +34,7 @@ tags = ["校园网", "闲话"]
 
 若用户名和密码无误，在POST后会跳转至特定网页并设置`iPlanetDirectoryPro`和`CASTGC`两个cookies；若登陆失败则状态码被设置为200。
 
-若想退出登陆，只需GET一下`https://ids.shiep.edu.cn/authserver/logout`即可。
+若想退出登陆，只需GET `https://ids.shiep.edu.cn/authserver/logout`即可。
 
 如果在之后想要检测用户是否登陆，可查看返回的HTML中有无`div.auth_page_wrapper`的元素。
 
@@ -70,6 +70,43 @@ tags = ["校园网", "闲话"]
 
 经过尝试，POST后的响应即是一卡通服务平台的主页。
 
+通过GET `http://10.168.103.76/accountcardUser.action`，我们可以获得卡余额、卡状态等有用的信息（使用正则表达式提取）。
+
+要想获取用户的账户列表，可GET `http://10.168.103.76/accounttodayTrjn.action`或GET `http://10.168.103.76/accounthisTrjn.action`并遍历`select#account>option`元素。元素的`value`属性即是用户的账号（一般情况下只会有一个）。
+
+POST到`http://10.168.103.76/accounttodatTrjnObject.action`可查询当日流水。POST的表单如下：
+
+- `account` - 账号
+- `inputObject` - 交易类型（一般选择`all`，即“查询全部”）
+
+其响应是一个HTML，我们可以在元素`tr.bl>td>div[align=center]`处找到当日流水有多少页（使用正则表达式提取），并再POST到该URL即可使用循环读取当日流水的每一页。POST的表单如下：
+
+- `pageVo.pageNum` - 当前页（从1开始）
+- `inputObject` - 之前选择的交易类型
+- `account` - 之前选择的账号
+
+若想获得历史流水，可先POST以下表单到`http://10.168.103.76/accounthisTrjn1.action`：
+
+- `account` - 账号
+- `inputObject` - 交易类型（一般选择`all`，即“查询全部”）
+
+再POST想要查询的时间段到`http://10.168.103.76/accounthisTrjn2.action`：
+
+- `inputStartDate` - 以`YYYYMMDD`编码的开始日期
+- `inputEndDate` - 以`YYYYMMDD`编码的结束日期
+
+接下来浏览器先等待一秒再执行后续操作，不过不等待一秒也可以。
+
+接下来POST一个空的表单到`http://10.168.103.76/accounthisTrjn3.action`即可查询当日流水。
+
+其响应是一个HTML，我们可以在元素`tr.bl>td>div[align=center]`处找到历史流水有多少页（使用正则表达式提取）。然后POST到`http://10.168.103.76/accountconsubBrows.action`即可使用循环读取历史流水的每一页。POST的表单如下：
+
+- `inputStartDate` - 之前选择的开始日期（`YYYYMMDD`格式）
+- `inputStartDate` - 之前选择的结束日期（`YYYYMMDD`格式）
+- `pageNum` - 当前页（从1开始）
+
+由于一卡通服务的限制，最多只能查询间隔为30天的历史流水（即开始日期与结束日期之间的间隔小于30天，而不是开始日期与当前日期的间隔小于30天）。
+
 ## 教务系统
 教学管理信息系统（<https://jw.shiep.edu.cn/eams/index.action>，需要VPN）在本文提到的几个功能中还是相对重要的，它能提供每周的课表、大学四年的培养计划，以及选课功能等等。
 
@@ -79,14 +116,14 @@ tags = ["校园网", "闲话"]
 
 在`div#semester_start`和`div#semester_end`中分别以`YYYY-MM-DD`的形式存储着学期开始和截止的日期。
 
-如果某日期小于学期开始日期或大于学期截止日期，且该月大于5月，则为暑假；否则为寒假。
+如果某日期小于学期开始日期或大于学期截止日期，且该月大于5月，则该日期属于暑假；否则属于寒假。
 
 ## 能源管理
 能源管理系统（<http://10.50.2.206>，需要VPN）为学生提供了宿舍电费充值及查看电表参数等功能。
 
 每次访问能源管理系统都会要求用户重新登陆，参照登陆统一身份认证平台的步骤并POST数据到`https://ids.shiep.edu.cn/authserver/login?service=http://10.50.2.206:80/&renew=true`即可。
 
-通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数，响应是一个JSON，其结构如下：
+通过GET `http://10.50.2.206/api/charge/query?_dc=<当前时间戳>`可以获取电表参数。响应是一个JSON，其结构如下：
 
 ```javascript
 {
@@ -107,7 +144,7 @@ tags = ["校园网", "闲话"]
 }
 ```
 
-通过GET `http://10.50.2.206/api/charge/GetRoom?_dc=<当前时间戳>`可以获取用户所住的学生公寓号及房间号，响应是一个JSON，其结构如下：
+通过GET `http://10.50.2.206/api/charge/GetRoom?_dc=<当前时间戳>`可以获取用户所住的学生公寓号及房间号。响应是一个JSON，其结构如下：
 
 ```javascript
 {
@@ -120,7 +157,7 @@ tags = ["校园网", "闲话"]
 }
 ```
 
-通过POST到`http://10.50.2.206/api/charge/Submit?_dc=<当前时间戳>`可以充值电费，POST的表单如下：
+通过POST到`http://10.50.2.206/api/charge/Submit?_dc=<当前时间戳>`可以充值电费。POST的表单如下：
 
 - `building` - 公寓号
 - `room` - 房间号
@@ -142,7 +179,7 @@ tags = ["校园网", "闲话"]
 **请大家不要在浏览器之外尝试充值电费的功能，如果充值成功的话就会扣除校园卡里面的钱！**
 {style="width: 90%; margin: 0 auto; text-align: center"}
 
-通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)，响应是一个JSON，其结构如下：
+通过GET `http://10.50.2.206/api/charge/user_account?_dc=<当前时间戳>&page=<一个自然数>&start=<一个自然数>&limit=<一个自然数>`可以看见自己的充值情况(`page`、`start`等参数似乎没有意义)。响应是一个JSON，其结构如下：
 
 ```javascript
 {
@@ -170,7 +207,7 @@ tags = ["校园网", "闲话"]
 
 首先，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个需要记住的字符串>`，请复制那个需要记住的字符串或将其存入变量中。
 
-云盘的API非常复杂，这里不适合叙述。但是在[这个页面](https://pan.shiep.edu.cn/#/developers)可以下载API的文档。
+云盘的API非常复杂，这里不适合叙述。但是我却意外发现了[API文档](https://pan.shiep.edu.cn/#/developers)。
 
 ## 后记
 这篇博客的大部分内容是我大一刚刚开学后的军训期间（14天）完成的。最开始我只是想研究校园网是如何登陆的，后来我就想把上电学生常用的功能都研究一遍，便诞生了[suep-toolkit](https://github.com/zhengxyz123/suep-toolkit)项目以及本博客。
