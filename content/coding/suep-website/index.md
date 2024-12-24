@@ -22,11 +22,11 @@ tags = ["校园网", "闲话"]
 - `rememberMe` - 一周内免登陆，若勾选则设置为`on`，否则不包含在请求中
 - `lt` - 未知（隐藏）
 - `dllt` - 未知（隐藏，总是为`userNamePasswordLogin`）
-- `execution` - 未知（隐藏，总是为`eNsM`，`N`、`M`为正整数，`N-1`可能代表页面刷新的次数，`M-1`可能表示登陆失败的次数）
+- `execution` - 未知（隐藏，总是为`eNsM`，`N`、`M`为正整数）
 - `_eventId` - 未知（隐藏，总是为`submit`）
 - `rmShown` - 未知（隐藏，总是为`1`）
 
-“隐藏”指`input`元素有`type="hidden"`的属性。
+“隐藏”指`input`元素有`type="hidden"`的属性。它们的值必须通过GET `https://ids.shiep.edu.cn/authserver/login`获取。
 
 验证码不总出现，需要GET `https://ids.shiep.edu.cn/authserver/needCaptcha.html?username=<用户名>&_=<当前时间戳>`。若响应的内容中包含`true`字符串，则代表需要输入验证码。
 
@@ -112,7 +112,89 @@ POST到`http://10.168.103.76/accounttodatTrjnObject.action`可查询当日流水
 
 教务系统提供了两种登陆方式：“统一身份认证”和“直接登陆教务系统”。对于前者，只要成功登陆了统一身份认证平台就能通过GET `https://jw.shiep.edu.cn/eams/login.action`进入教务系统主页；若选择后者，需要输入验证码，不是特别推荐。
 
-如果有获取当前教学周的需求，可以访问教务处主页（<https://jwc.shiep.edu.cn>）获取。
+想要获取课表，可以参考[《NEU新版教务处课程表》](https://gist.github.com/whoisnian/32b832bd55978fefa042d7c76f9d76c3)中的步骤。
+
+接下来我将要介绍选课的详细逻辑。
+
+我们首先需要GET `https://jw.shiep.edu.cn/eams/stdElectCourse.action`，再通过正则表达式`electionProfile.id=(\d+)`获取其中的数字字符串（可能不止有一个）。
+
+然后，通过GET `https://jw.shiep.edu.cn/eams/stdElectCourse!data.action?profileId=<刚刚获得的数字字符串>`来获取所有可选课程。其返回的是一个JavaScript脚本，部分内容如下：
+```javascript
+var lessonJSONs = [
+    ...
+    {
+        id: 715417,
+        no: '2500060.01',
+        name: '计算机二级等级C语言',
+        code: '2500060',
+        credits: 1,
+        courseId: 31312,
+        stdCount: 0,
+        limitCount: 30,
+        startWeek: 1,
+        endWeek: 16,
+        courseTypeId: 1218,
+        courseTypeName: '自然科学类',
+        courseTypeCode: '219',
+        lessonTypeId: 1,
+        lessonTypeName: '正常',
+        lessonTypeCode: '02',
+        scheduled: true,
+        hasTextBook: false,
+        period: 16,
+        weekHour: 1,
+        withdrawable: true,
+        textbooks: 'null',
+        teachers: '某某某',
+        campusCode: '0400',
+        campusName: '临港校区',
+        remark: '需先修《C语言程序设计》',
+        arrangeInfo: [
+            {
+                weekDay: 3,
+                weekState: '00000000110000000000000000000000000000000000000000000',
+                startUnit: 11,
+                endUnit: 12,
+                weekStateDigest: '8-9',
+                rooms: '(临港)一教407第三机房'
+            },
+            {
+                weekDay: 3,
+                weekState: '00001111000000000000000000000000000000000000000000000',
+                startUnit: 11,
+                endUnit: 13,
+                weekStateDigest: '4-7',
+                rooms: '(临港)一教407第三机房'
+            }
+        ]
+    },
+    ...
+];
+```
+
+我们只需要将该字符串转换为合法的JSON字符串即可被几乎所有的编程语言读取（想想在Python里面如何用一行来搞定）。
+
+想要选课，需要POST到`https://jw.shiep.edu.cn/eams/stdElectCourse!batchOperator.action`，并附带如下数据：
+```javascript
+{
+    "profileId": "<第一步就获取到的数字字符串>",
+    "optype": true,
+    "operator0": "<课程 id>:true:0"
+}
+```
+
+想要退课，需要POST到与选课操作相同的URL，并附带如下数据：
+```javascript
+{
+    "profileId": "<第一步就获取到的数字字符串>",
+    "optype": false,
+    "operator0": "<课程 id>:false"
+}
+```
+
+响应都是一个HTML，如果HTML中含有“成功”二字即视为选（退）课成功。
+
+要获取当前教学周，需要GET `https://jwc.shiep.edu.cn`。
 
 在`div#semester_start`和`div#semester_end`中分别以`YYYY-MM-DD`的形式存储着学期开始和截止的日期。
 
