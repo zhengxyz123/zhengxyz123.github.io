@@ -172,7 +172,16 @@ var lessonJSONs = [
 ];
 ```
 
-我们只需要将该字符串转换为合法的JSON字符串即可被几乎所有的编程语言读取（想想在Python里面如何用一行来搞定）。
+我们只需要将该字符串转换为合法的JSON字符串即可被几乎所有的编程语言读取。
+
+下面以Python为例，简单介绍转换方法：
+```python
+import re
+
+# original_str 为请求的内容，需要做切片处理
+# legal_json_str 为合法的 JSON 字符串
+legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '"')
+```
 
 想要选课，需要POST到`https://jw.shiep.edu.cn/eams/stdElectCourse!batchOperator.action`，并附带如下数据：
 ```javascript
@@ -193,6 +202,8 @@ var lessonJSONs = [
 ```
 
 响应都是一个HTML，如果HTML中含有“成功”二字即视为选（退）课成功。
+
+对于Linux系统来说，访问教务系统时SSL会报`unable to get local issuer certificate`错误。你可能需要做一些额外的工作来访问教务系统（例如使用`requests`库发送请求时添加`verify=False`参数）。
 
 要获取当前教学周，需要GET `https://jwc.shiep.edu.cn`。
 
@@ -285,7 +296,31 @@ var lessonJSONs = [
 ## 上电云盘
 上电云盘（<https://pan.shiep.edu.cn>，需要VPN）给每个学生都提供了50GB的存储空间，也可以用来交作业，但是老师偏偏就喜欢用其它的软件来达到相同的目的。
 
-若要登陆云盘，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个字符串>`，如果成功跳转即登陆成功。
+若要登陆云盘，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个字符串>`，将这个字符串存入变量`ticket`。
+
+然后，POST到`https://pan.shiep.edu.cn/api/v1/auth1?method=getbythirdparty`并附带如下数据：
+```javascript
+{
+    "deviceinfo": {
+        "ostype": 6
+    },
+    "params" : {
+        "ticket": ticket // 刚刚提到的变量
+    },
+    "thirdpartyid": "dlxy-as"
+}
+```
+
+其响应是一个JSON，其结构如下（这里的UUID都是随机生成的）：
+```javascript
+{
+    "expires": 3600,
+    "tokenid": "1927593b-75a8-4975-a3d5-ad203b2db48b",
+    "userid": "824f2df1-e685-475b-95ee-dc07c727e69d"
+}
+```
+
+在之后的所有API调用中，都需要附加`&tokenid=<tokenid>`到URL之后。
 
 本云盘基于AnyShare，您可自行搜索其API。
 
