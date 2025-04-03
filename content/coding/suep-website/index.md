@@ -52,23 +52,9 @@ tags = ["校园网", "闲话"]
 
 该系统在成功登陆了统一身份认证平台之外，还要再GET `http://10.166.40.12?url=https://ai.shiep.edu.cn`，这会跳转至`https://ai.shiep.edu.cn?authToken=<token>`。请将`<token>`保存至变量，之后的所有请求都要用到。
 
-为了获得我们所有的聊天（这并不重要），我们需要GET `https://ai.shiep.edu.cn/api/data/session/chat-session-list?authToken=<token>`，其响应是一个JSON：
-```javascript
-{
-    "result": "success",
-    "data": [
-        {
-            "question": "你是谁？", // 你提的问题
-            "chatSessionId": "85950a83-eeef-4e00-a66f-170ef58add25" // 一个 UUID
-        },
-        {
-            ...
-        }
-    ]
-}
-```
+接下来我只会讲述如何与大语言模型交流，因为这是唯一有用的内容。
 
-为了与大语言模型交流，我们需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api?question=<prompt>&model=<model>&chatSessionId=fetching...&authToken=<token>`，其中的`prompt`是你提示词，`model`是`deepseek-v3`或`deepseek-r1`之一。需要注意的是标头`Content-Type`需要被设置成为`text/event-stream`（非强制）。
+为了与大语言模型交流，需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api?question=<prompt>&model=<model>&chatSessionId=fetching...&authToken=<token>`，其中的`prompt`是你提示词，`model`是`deepseek-v3`或`deepseek-r1`之一。需要注意的是标头`Content-Type`需要被设置成为`text/event-stream`（非强制）。
 
 接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应。
 
