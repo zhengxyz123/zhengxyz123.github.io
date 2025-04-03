@@ -45,11 +45,46 @@ tags = ["校园网", "闲话"]
 
 该系统通过从服务器获取HTML（不是JSON）再在弹窗上渲染的方式来与用户交互。例如GET `https://estudent.shiep.edu.cn/GeRCZ/JiBXX.aspx`即可获得学生的基本信息。
 
+## 上电DeepSeek
+2025年4月3日，AI智能助手（<https://ai.shiep.edu.cn>，需要VPN）正式上线运行。在上线的第一时间我便进行了尝试，评价结果为**狗屎**。
+
+接下来我将详细讲述如何登陆及使用这堆**狗屎**。
+
+该系统在成功登陆了统一身份认证平台之外，还要再GET `http://10.166.40.12?url=https://ai.shiep.edu.cn`，这会跳转至`https://ai.shiep.edu.cn?authToken=<token>`。请将`<token>`保存至变量，之后的所有请求都要用到。
+
+为了获得我们所有的聊天（这并不重要），我们需要GET `https://ai.shiep.edu.cn/api/data/session/chat-session-list?authToken=<token>`，其响应是一个JSON：
+```javascript
+{
+    "result": "success",
+    "data": [
+        {
+            "question": "你是谁？", // 你提的问题
+            "chatSessionId": "85950a83-eeef-4e00-a66f-170ef58add25" // 一个 UUID
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+
+为了与大语言模型交流，我们需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api?question=<prompt>&model=<model>&chatSessionId=fetching...&authToken=<token>`，其中的`prompt`是你提示词，`model`是`deepseek-v3`或`deepseek-r1`之一。需要注意的是标头`Content-Type`需要被设置成为`text/event-stream`（非强制）。
+
+接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应。
+
+- `chatSessionId`事件：一个UUID
+- `rmessage`事件：一个JSON，其`data`键对应的值是思维链的一部分
+- `cmessage`事件：一个JSON，其`data`键对应的值是非思维链的一部分
+- `statistics`事件：统计信息组成的JSON
+- `close`事件：关闭连接
+
+由此可见：我们每次只能和DeepSeek对话一次，而且因为提示词是通过URL向服务器发送的，能传递的内容非常有限。这不是**狗屎**是什么？
+
 ## 一站式办事大厅
 一站式办事大厅（<https://ehall.shiep.edu.cn>）提供了一些稍微有用的功能，我将分章节叙述。
 
 ### 一卡通服务平台
-一卡通服务平台（需要VPN）的登陆过程非常抽象，只登陆统一身份认证平台还不够，我将向您展示具体的HTML来说明：
+一卡通服务平台（<https://ecard.shiep.edu.cn>，需要VPN）的登陆过程非常抽象，只登陆统一身份认证平台还不够，我将向您展示具体的HTML来说明：
 ```html
 <form id="loginForm" action="" method="post" style="display: hidden">
     <input type="hidden" name="errorcode" value="1" />
@@ -256,7 +291,7 @@ legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '
 - `room` - 房间号
 - `kwh` - 充值电量
 
-其响应是一个JSON，其结构：
+其响应是一个JSON，结构如下：
 
 ```javascript
 {
@@ -296,7 +331,7 @@ legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '
 ## 上电云盘
 上电云盘（<https://pan.shiep.edu.cn>，需要VPN）给每个学生都提供了50GB的存储空间，也可以用来交作业，但是老师偏偏就喜欢用其它的软件来达到相同的目的。
 
-若要登陆云盘，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<一个字符串>`，将这个字符串存入变量`ticket`。
+若要登陆云盘，请GET `https://ids.shiep.edu.cn/authserver/login?service=https://pan.shiep.edu.cn/sso`，这会自动跳转到`https://pan.shiep.edu.cn/sso?ticket=<ticket>`，请将`<ticket>`存入变量`ticket`。
 
 然后，POST到`https://pan.shiep.edu.cn/api/v1/auth1?method=getbythirdparty`并附带如下数据：
 ```javascript
@@ -311,7 +346,7 @@ legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '
 }
 ```
 
-其响应是一个JSON，其结构如下（这里的UUID都是随机生成的）：
+其响应是一个JSON，结构如下（这里的UUID都是随机生成的）：
 ```javascript
 {
     "expires": 3600,
