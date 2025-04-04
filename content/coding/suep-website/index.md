@@ -46,17 +46,22 @@ tags = ["校园网", "闲话"]
 该系统通过从服务器获取HTML（不是JSON）再在弹窗上渲染的方式来与用户交互。例如GET `https://estudent.shiep.edu.cn/GeRCZ/JiBXX.aspx`即可获得学生的基本信息。
 
 ## 上电DeepSeek
-2025年4月3日，AI智能助手（<https://ai.shiep.edu.cn>，需要VPN）正式上线运行。在上线的第一时间我便进行了尝试，评价结果为**狗屎**。
+2025年4月3日，AI智能助手（<https://ai.shiep.edu.cn>，需要VPN）正式上线运行。在上线的第一时间我便进行了尝试，评价结果为**一坨狗屎**。
 
 接下来我将详细讲述如何登陆及使用这堆**狗屎**。
 
 该系统在成功登陆了统一身份认证平台之外，还要再GET `http://10.166.40.12?url=https://ai.shiep.edu.cn`，这会跳转至`https://ai.shiep.edu.cn?authToken=<token>`。请将`<token>`保存至变量，之后的所有请求都要用到。
 
-接下来我只会讲述如何与大语言模型交流，因为这是唯一有用的内容。
+接下来我只会讲述如何与大语言模型交流，因为这是这堆**狗屎**中唯一有用的内容。
 
-为了与大语言模型交流，需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api?question=<prompt>&model=<model>&chatSessionId=fetching...&authToken=<token>`，其中的`prompt`是你提示词，`model`是`deepseek-v3`或`deepseek-r1`之一。需要注意的是标头`Content-Type`需要被设置成为`text/event-stream`（非强制）。
+为了与大语言模型交流，需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api`并附带用如下键值对组成的查询字符串：
 
-接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应。
+- `prompt`：提示词
+- `model`：`deepseek-v3`或`deepseek-r1`之一
+- `chatSessionId`：总是为`fetching...`
+- `authToken`：上文提到过的
+
+接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应（因为响应头`Content-Type`被设置成了`text/event-stream`）：
 
 - `chatSessionId`事件：一个UUID
 - `rmessage`事件：一个JSON，其`data`键对应的值是思维链的一部分
@@ -64,7 +69,7 @@ tags = ["校园网", "闲话"]
 - `statistics`事件：统计信息组成的JSON
 - `close`事件：关闭连接
 
-由此可见：我们每次只能和DeepSeek对话一次，而且因为提示词是通过URL向服务器发送的，能传递的内容非常有限。这不是**狗屎**是什么？
+由此可见：我们每次只能和DeepSeek对话一次，而且因为提示词是通过URL向服务器发送的，能传递的内容非常有限。信息办，你创造的东西不是**一坨狗屎**是什么？
 
 ## 一站式办事大厅
 一站式办事大厅（<https://ehall.shiep.edu.cn>）提供了一些稍微有用的功能，我将分章节叙述。
