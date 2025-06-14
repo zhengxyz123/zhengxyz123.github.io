@@ -149,51 +149,43 @@ POST到`http://10.168.103.76/accounttodatTrjnObject.action`可查询当日流水
 var lessonJSONs = [
     ...
     {
-        id: 715417,
-        no: '2500060.01',
-        name: '计算机二级等级C语言',
-        code: '2500060',
-        credits: 1,
-        courseId: 31312,
-        stdCount: 0,
-        limitCount: 30,
-        startWeek: 1,
-        endWeek: 16,
-        courseTypeId: 1218,
-        courseTypeName: '自然科学类',
-        courseTypeCode: '219',
-        lessonTypeId: 1,
-        lessonTypeName: '正常',
-        lessonTypeCode: '02',
-        scheduled: true,
-        hasTextBook: false,
-        period: 16,
-        weekHour: 1,
-        withdrawable: true,
-        textbooks: 'null',
-        teachers: '某某某',
-        campusCode: '0400',
-        campusName: '临港校区',
-        remark: '需先修《C语言程序设计》',
-        arrangeInfo: [
+        "id": 718711,
+        "no": "2700154.01",
+        "name": "创新中国",
+        "code": "2700154",
+        "credits": 1.0,
+        "courseId": 33592,
+        "stdCount": 10,
+        "limitCount": 10.0,
+        "startWeek": 5,
+        "endWeek": 15,
+        "courseTypeId": 1216,
+        "courseTypeName": "人文社科类",
+        "courseTypeCode": "217",
+        "lessonTypeId": 1,
+        "lessonTypeName": "正常",
+        "lessonTypeCode": "02",
+        "scheduled": true,
+        "hasTextBook": false,
+        "period": 16,
+        "weekHour": 1,
+        "withdrawable": true,
+        "textbooks": "null",
+        "teachers": "线上教师（超星）",
+        "campusCode": "",
+        "campusName": "",
+        "remark": "超星线上课程",
+        "arrangeInfo": [
             {
-                weekDay: 3,
-                weekState: '00000000110000000000000000000000000000000000000000000',
-                startUnit: 11,
-                endUnit: 12,
-                weekStateDigest: '8-9',
-                rooms: '(临港)一教407第三机房'
-            },
-            {
-                weekDay: 3,
-                weekState: '00001111000000000000000000000000000000000000000000000',
-                startUnit: 11,
-                endUnit: 13,
-                weekStateDigest: '4-7',
-                rooms: '(临港)一教407第三机房'
+                "weekDay": 7,
+                "weekState": "00000111111111110000000000000000000000000000000000000",
+                "startUnit": 13,
+                "endUnit": 13,
+                "weekStateDigest": "5-15",
+                "rooms": ""
             }
         ]
-    },
+    }
     ...
 ];
 ```
