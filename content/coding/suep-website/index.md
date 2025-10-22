@@ -2,7 +2,7 @@
 title = "论上海电力大学校园网"
 date = 2024-09-08T20:08:24+08:00
 toc = true
-tags = ["校园网", "闲话"]
+tags = ["校园网", "Linux"]
 +++
 
 在这篇博客中，我将介绍上海电力大学校园网一部分功能的前端逻辑以及对校园网设计模式的思考。
@@ -44,32 +44,6 @@ tags = ["校园网", "闲话"]
 该系统只要成功登陆了统一身份认证平台就能访问。
 
 该系统通过从服务器获取HTML（不是JSON）再在弹窗上渲染的方式来与用户交互。例如GET `https://estudent.shiep.edu.cn/GeRCZ/JiBXX.aspx`即可获得学生的基本信息。
-
-## 上电DeepSeek
-2025年4月3日，AI智能助手（<https://ai.shiep.edu.cn>，需要VPN）正式上线运行。在上线的第一时间我便进行了尝试，评价结果为**一坨狗屎**。
-
-接下来我将详细讲述如何登陆及使用这堆**狗屎**。
-
-该系统在成功登陆了统一身份认证平台之外，还要再GET `http://10.166.40.12?url=https://ai.shiep.edu.cn`，这会跳转至`https://ai.shiep.edu.cn?authToken=<token>`。请将`<token>`保存至变量，之后的所有请求都要用到。
-
-接下来我只会讲述如何与大语言模型交流，因为这是这堆**狗屎**中唯一有用的内容。
-
-为了与大语言模型交流，需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api`并附带用如下键值对组成的查询字符串：
-
-- `prompt`：提示词
-- `model`：`deepseek-v3`或`deepseek-r1`之一
-- `chatSessionId`：总是为`fetching...`
-- `authToken`：上文提到过的
-
-接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应（因为响应头`Content-Type`被设置成了`text/event-stream`）：
-
-- `chatSessionId`事件：一个UUID
-- `rmessage`事件：一个JSON，其`data`键对应的值是思维链的一部分
-- `cmessage`事件：一个JSON，其`data`键对应的值是非思维链的一部分
-- `statistics`事件：统计信息组成的JSON
-- `close`事件：关闭连接
-
-由此可见：我们每次只能和DeepSeek对话一次，而且因为提示词是通过URL向服务器发送的，能传递的内容非常有限。信息办，你创造的东西不是**一坨狗屎**是什么？
 
 ## 一站式办事大厅
 一站式办事大厅（<https://ehall.shiep.edu.cn>）提供了一些稍微有用的功能，我将分章节叙述。
@@ -221,7 +195,7 @@ legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '
 
 响应都是一个HTML，如果HTML中含有“成功”二字即视为选（退）课成功。
 
-对于Linux系统来说，访问教务系统时SSL会报`unable to get local issuer certificate`错误。你可能需要做一些额外的工作来访问教务系统（例如使用`requests`库发送请求时添加`verify=False`参数）。
+Linux访问教务系统时SSL会报`unable to get local issuer certificate`错误。你可能需要做一些额外的工作来访问教务系统（例如使用`requests`库发送请求时添加`verify=False`参数）。
 
 要获取当前教学周，需要GET `https://jwc.shiep.edu.cn`。
 
@@ -341,6 +315,38 @@ legal_json_str = re.sub(r"(,|{)(\w+):", r'\1"\2":', original_str).replace("'", '
 在之后的所有API调用中，都需要附加`&tokenid=<tokenid>`到URL之后。
 
 本云盘基于AnyShare，您可自行搜索其API。
+
+## 上电DeepSeek
+2025年4月3日，AI智能助手（<https://ai.shiep.edu.cn>，需要VPN）正式上线运行。在上线的第一时间我便进行了尝试，评价结果为**一坨狗屎**。
+
+接下来我将详细讲述如何登陆及使用这堆**狗屎**。
+
+该系统在成功登陆了统一身份认证平台之外，还要再GET `http://10.166.40.12?url=https://ai.shiep.edu.cn`，这会跳转至`https://ai.shiep.edu.cn?authToken=<token>`。请将`<token>`保存至变量，之后的所有请求都要用到。
+
+接下来我只会讲述如何与大语言模型交流，因为这是这堆**狗屎**中唯一有用的内容。
+
+为了与大语言模型交流，需要GET `https://ai.shiep.edu.cn/api/data/ai/ve-api`并附带用如下键值对组成的查询字符串：
+
+- `prompt`：提示词
+- `model`：`deepseek-v3`或`deepseek-r1`之一
+- `chatSessionId`：总是为`fetching...`
+- `authToken`：上文提到过的
+
+接下来，我将以服务器发送事件（SSE）的格式讲述应该如何解读响应（因为响应头`Content-Type`被设置成了`text/event-stream`）：
+
+- `chatSessionId`事件：一个UUID
+- `rmessage`事件：一个JSON，其`data`键对应的值是思维链的一部分
+- `cmessage`事件：一个JSON，其`data`键对应的值是非思维链的一部分
+- `statistics`事件：统计信息组成的JSON
+- `close`事件：关闭连接
+
+由此可见：我们每次只能和DeepSeek对话一次，而且因为提示词是通过URL向服务器发送的，能传递的内容非常有限。信息办，你创造的东西不是**一坨狗屎**是什么？
+
+## 实验室安全知识考试系统
+
+总是502是怎么搞的？你们就偏要用Vue单页应用吗？要加载至少14MB的内容才能把一个页面完整渲染出来，这到底是啥操作？连响应式都懒得做，你们是人吗？给你们的钱是拿来喂狗的吗？
+
+请大家避雷上海仕程卫教软件有限公司。
 
 ## 后记
 这篇博客的一部分内容是我大一刚刚开学后的军训期间（14天）完成的。最开始我只是想研究校园网是如何登陆的，后来我就想把上电学生常用的功能都研究一遍，便诞生了[suep-toolkit](https://github.com/zhengxyz123/suep-toolkit)项目以及本博客。
